@@ -33,6 +33,12 @@ float Complex::getReal()
     return r;
 };
 
+float Complex::getImag()
+{
+    float i = imag;
+    return i;
+};
+
 void Complex::printComplext()
 {
     if(imag<0)
