@@ -34,6 +34,20 @@ class Stack
         cout<<constCounter<<" stack(s) created."<<endl;
     };
 
+    Stack(Stack &z)//copy constructor
+    {
+        tos = 0;
+        Size = z.Size;
+        st = new int[Size];
+        int i = 0;
+        for(i=0;i<z.tos;i++)
+        {
+            push(z.st[i]);
+        }
+        constCounter++;
+        cout<<constCounter<<" stack(s) created."<<endl;
+    };
+
     ~Stack()
     {
         delete[] st;
@@ -45,6 +59,16 @@ class Stack
     {
         Size = s;
         cout<<"Stack size was changed"<<endl;
+    }
+
+    int getSize()
+    {
+        return Size;
+    }
+
+    int getTos()
+    {
+        return tos;
     }
 
     void push(int x)
@@ -91,7 +115,7 @@ class Stack
     };
 
     friend void viewContent(Stack &x);
-    Stack (Stack &z);
+    friend void viewContentCopy(Stack x);
 
 };
 
@@ -101,13 +125,22 @@ int Stack::destCounter = 0;
 void viewContent(Stack &x)
 {
     int t = x.tos;
-    while (t >= 0)
+    while (t > 0)
         {
-            cout<<x.st[t+1]<<endl;
+            //cout<<x.st[--t]<<endl; --> syntax not working
+            cout<<x.st[t]<<endl;
             t--;
         }
-    //while (t!=0)
-    //    cout<<x.st[--t]<<endl;
+}
+
+void viewContentCopy(Stack x)
+{
+    int t = x.tos;
+    while (t > 0)
+        {
+            cout<<x.pop()<<endl;
+            t--;
+        }
 }
 
 int main()
@@ -118,17 +151,16 @@ int main()
     s1.push(5);
     s1.push(14);
 
-    s1.push(20);
-
-    cout<<s1.pop()<<endl;
-
-    Stack s2;
-
-    s2.setSize(5);
-
-    s2.push(3);
-
+    cout<<"Viewing s1 using reference"<<endl;
     viewContent(s1);
+
+    Stack s2(2);
+
+    s2.push(5);
+    s2.push(14);
+
+    cout<<"Viewing s2 using copy const."<<endl;
+    viewContentCopy(s2);
 
     cout<<"Gimme size of s3:"<<endl;
     int sz3;
@@ -138,7 +170,7 @@ int main()
 
     int i = 0;
 
-    while(i<sz3)
+    while(i<s3.getSize())
     {
         i++;
         s3.push(i);
@@ -148,7 +180,7 @@ int main()
 
     i = 0;
 
-    while(i<sz3)
+    while(i<=s3.getTos())
     {
         cout<<s3.pop()<<endl;
         i++;
