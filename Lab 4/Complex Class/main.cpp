@@ -30,7 +30,7 @@ public:
 
     ~Complex()
     {
-        cout<<"Complex has been dropped"<<endl;
+        //cout<<"Complex has been dropped"<<endl;
     };
 
     void setReal(float r)
@@ -78,7 +78,7 @@ public:
         return temp;
     };
 
-    void printComplext()
+    void printComplex()
     {
         if(imag<0)
             cout<<real<<"-"<<abs(imag)<<"i"<<endl;
@@ -88,44 +88,168 @@ public:
             cout<<real<<endl;
     };
 
+    Complex operator + (Complex c)
+    {
+        Complex op;
+        op.real = real + c.real;
+        op.imag = imag + c.imag;
+        return op;
+
+    };
+
+    Complex operator - (Complex c)
+    {
+        Complex op;
+        op.real = real - c.real;
+        op.imag = imag - c.imag;
+        return op;
+
+    };
+
+    Complex operator + (float x)
+    {
+        Complex op;
+        op.real = real + x;
+        op.imag = imag;
+        return op;
+
+    };
+
+    Complex operator - (float x)
+    {
+        Complex op;
+        op.real = this->real - x;
+        op.imag = this->imag;
+        return op;
+
+    };
+
+    int operator == (Complex c)
+    {
+        if(real == c.real && imag == c.imag)
+            return 1;
+        else
+            return 0;
+    };
+
+    Complex operator += (Complex c)
+    {
+        real += c.real;
+        imag += c.imag;
+        return *this;
+    };
+
+    Complex operator -= (Complex c)
+    {
+        real -= c.real;
+        imag -= c.imag;
+        return *this;
+    };
+
+    Complex operator ++ ()
+    {
+        real++;
+        return *this;
+    };
+
+    Complex operator ++ (int)
+    {
+        Complex op = *this;
+        real++;
+        return op;
+    };
+
+    Complex operator -- ()
+    {
+        real--;
+        return *this;
+    };
+
+    Complex operator -- (int)
+    {
+        Complex op = *this;
+        real--;
+        return op;
+    };
+
+    operator float()
+    {
+        return real;
+    };
+
+    friend Complex operator + (float x, Complex c);
+    friend Complex operator - (float x, Complex c);
+
 };
 
+Complex operator + (float x, Complex c)
+{
+    Complex op;
+
+    op.real = c.real + x;
+    op.imag = c.imag;
+
+    return op;
+};
+
+Complex operator - (float x, Complex c)
+{
+    Complex op;
+
+    op.real = x - c.real;
+    op.imag = c.imag;
+
+    return op;
+};
 
 int main()
 {
-    Complex myComp1(1), myComp2(1,2), resultComp;
+    Complex c1(1,9), c2(1,2), c3(4,6), c4(2,7);
 
-    myComp1.printComplext();
-    myComp2.printComplext();
+    c3 = c1 + c2;
+    c3.printComplex();
 
-    float temp, temp1, temp2;
+    c3 = c1 - c2;
+    c3.printComplex();
 
-    cout << "Give me first real value: " << endl;
-    cin >> temp1;
+    c3 = c1 + 5;
+    c3.printComplex();
 
-    cout << "Give me first imaginary value: " << endl;
-    cin >> temp2;
+    c3 = c1 - 5;
+    c3.printComplex();
 
-    myComp1.setComplex(temp1, temp2);
+    c3 = 5 + c1;
+    c3.printComplex();
 
-    cout << "Give me second real value: " << endl;
-    cin >> temp;
+    c3 = 5 - c1;
+    c3.printComplex();
 
-    myComp2.setReal(temp);
+    if(c1 == c2)
+        cout<<"== operator returned true"<<endl;
+    else
+        cout<<"== operator returned false"<<endl;
 
-    cout << "Give me second imaginary value: " << endl;
-    cin >> temp;
+    c1 += c2;
+    c1.printComplex();
 
-    myComp2.setImag(temp);
+    c1 -= c2;
+    c1.printComplex();
 
-    myComp1.printComplext();
-    myComp2.printComplext();
+    c3 = ++c1;
+    c3.printComplex();
+    c1.printComplex();
 
-    resultComp = myComp1.add(myComp2);
-    resultComp.printComplext();
+    c3 = --c1;
+    c3.printComplex();
+    c1.printComplex();
 
-    resultComp = myComp1.sub(myComp2);
-    resultComp.printComplext();
+    c3++;
+    c3.printComplex();
+
+    c3--;
+    c3.printComplex();
+
+    cout<<(float)c3<<endl;
 
     return 0;
 }
