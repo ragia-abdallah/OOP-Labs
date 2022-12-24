@@ -20,7 +20,7 @@ class Stack
         Size = 0;
         st = NULL;
         counter++;
-        cout<<"Stack "<<counter<<"has been created"<<endl;
+        cout<<"Stack "<<counter<<" has been created"<<endl;
     };
 
     Stack(int s)
@@ -29,7 +29,7 @@ class Stack
         Size = s;
         st = new int[Size];
         counter++;
-        cout<<"Stack "<<counter<<"has been created"<<endl;
+        cout<<"Stack "<<counter<<" has been created"<<endl;
     };
 
     ~Stack()
@@ -39,8 +39,18 @@ class Stack
         cout<<"Stack has been discarded. Total is "<<counter<<endl;
     };
 
+    void setSize(int s)
+    {
+        Size = s;
+        cout<<"Stack size was changed"<<endl;
+    }
+
     void push(int x)
     {
+        if (st == NULL)
+        {
+            st = new int[Size];
+        }
         if(tos == Size)
         {
             cout<<"Stack is full"<<endl;
@@ -49,6 +59,7 @@ class Stack
         {
             tos++;
             st[tos] = x;
+            cout<<"Item was pushed"<<endl;
         }
     };
 
@@ -67,32 +78,38 @@ class Stack
         return top;
     };
 
-    int getCounter()
-    {
-        return counter;
-    };
+     friend int getCounter();
 
 };
 
 int Stack::counter = 0;
 
+int getCounter()
+    {
+        return Stack::counter;
+    };
+
 int main()
 {
-    //cout<<Stack::getCounter()<<endl;
+    cout<<getCounter()<<endl; // haven't declared anything yet
 
     Stack s1(2);
 
-    s1.push(5);
-    s1.push(14);
-    s1.push(20);
+    s1.push(5);//item pushed
+    s1.push(14);//item pushed
+    s1.push(20);//stack is full (size=2)
 
-    cout<<s1.pop();
+    cout<<s1.pop()<<endl;//pops 14
 
-    Stack s2;
+    Stack s2;//allocated
+
+    s2.push(3);//stack is full
+
+    s2.setSize(5);
 
     s2.push(3);
 
-    cout<<s1.getCounter()<<endl;
+    cout<<getCounter()<<endl;
 
     cout<<"Gimme size of s3:"<<endl;
     int sz3;
